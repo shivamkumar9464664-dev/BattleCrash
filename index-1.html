@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BattleCrash - Official Download</title>
+<meta name="description" content="Download BattleCrash - the ultimate action battle game for Android.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0d0d15 0%, #1a1030 50%, #0d0d15 100%);
+    color: #f0f0f5;
+    min-height: 100vh;
+  }
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 6%;
+    background: rgba(10,10,20,0.85);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,60,80,0.2);
+  }
+  .navbar .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; }
+  .navbar .brand img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+  .navbar a {
+    color: #f0f0f5; text-decoration: none; font-size: 0.95rem; margin-left: 22px; opacity: 0.85;
+  }
+  .navbar a:hover { opacity: 1; color: #ff3c50; }
+
+  .hero {
+    text-align: center;
+    padding: 70px 6% 50px;
+    background: radial-gradient(ellipse at top, rgba(255,60,80,0.15), transparent 60%);
+  }
+  .hero img.logo {
+    width: 120px; height: 120px; border-radius: 28px; object-fit: cover;
+    box-shadow: 0 0 40px rgba(255,60,80,0.5);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    background: linear-gradient(90deg, #ff3c50, #ff9a3c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .hero p.tagline {
+    font-size: 1.1rem; color: #cfcfe0; max-width: 520px; margin: 0 auto 30px;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(90deg, #ff3c50, #ff6a3c);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 16px 38px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(255,60,80,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .download-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255,60,80,0.55); }
+  .download-meta { margin-top: 14px; font-size: 0.85rem; color: #9a9ab0; }
+
+  section { padding: 50px 6%; max-width: 1000px; margin: 0 auto; }
+  h2 {
+    font-size: 1.7rem; margin-bottom: 24px; text-align: center;
+    color: #ff3c50; letter-spacing: 0.5px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,60,80,0.15);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .feature-card:hover { transform: translateY(-4px); border-color: rgba(255,60,80,0.5); }
+  .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .feature-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: #ffb03c; }
+  .feature-card p { font-size: 0.9rem; color: #c5c5d5; line-height: 1.5; }
+
+  .support-box, .privacy-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,60,80,0.15);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .support-box p, .privacy-box p { color: #c5c5d5; line-height: 1.7; margin-bottom: 10px; font-size: 0.95rem; }
+  .support-box a { color: #ff9a3c; font-weight: 600; text-decoration: none; }
+  .support-box a:hover { text-decoration: underline; }
+  .privacy-box h3 { color: #ffb03c; margin: 16px 0 6px; font-size: 1rem; }
+
+  footer {
+    text-align: center;
+    padding: 30px 6%;
+    color: #7a7a90;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,60,80,0.15);
+  }
+  footer a { color: #ff9a3c; text-decoration: none; }
+
+  #toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a1a2a;
+    border: 1px solid #ff3c50;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: all 0.35s ease;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="brand">
+      <img src="logo.png" alt="BattleCrash Logo" onerror="this.style.display='none'">
+      <span>BattleCrash</span>
+    </div>
+    <div>
+      <a href="#features">Features</a>
+      <a href="#support">Support</a>
+      <a href="#privacy">Privacy</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <img class="logo" src="logo.png" alt="BattleCrash Logo" onerror="this.style.display='none'">
+    <h1>BattleCrash</h1>
+    <p class="tagline">Enter the arena. Fight, survive, and crash your way to victory in the most intense mobile battle experience.</p>
+    <a class="download-btn" id="downloadBtn" href="BattleCrash.apk" download="BattleCrash.apk">
+      ⬇ Download BattleCrash APK
+    </a>
+    <div class="download-meta">Free · Android · Direct APK download · No Play Store required</div>
+  </div>
+
+  <section id="features">
+    <h2>App Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">⚔️</div>
+        <h3>Intense Battle Arenas</h3>
+        <p>Jump into fast-paced, action-packed battles across a variety of uniquely designed maps and arenas.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎮</div>
+        <h3>Smooth Controls</h3>
+        <p>Responsive touch controls optimized for mobile, giving you full control over every move and attack.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🏆</div>
+        <h3>Tournament Mode</h3>
+        <p>Compete in ranked tournaments, climb the leaderboard, and prove you're the ultimate BattleCrash champion.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎨</div>
+        <h3>Custom Characters</h3>
+        <p>Unlock and customize characters with unique skins, gear, and abilities to match your playstyle.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Lightweight & Fast</h3>
+        <p>Optimized APK size for quick installs and smooth performance even on low-end devices.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>Secure & Ad-Friendly</h3>
+        <p>Safe direct-download APK with a clean, distraction-free interface and minimal permissions required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🌐</div>
+        <h3>Regular Updates</h3>
+        <p>New maps, characters, and features added regularly to keep the battle experience fresh.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <h3>24×7 Support</h3>
+        <p>Dedicated round-the-clock customer support to help you with any issue, anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="support">
+    <h2>Customer Support</h2>
+    <div class="support-box">
+      <p>Our support team is available <strong>24×7</strong> to help you with installation issues, gameplay questions, bugs, or any feedback you'd like to share.</p>
+      <p>📧 Email us anytime at: <a href="mailto:royalbattleoffical84@gmail.com">royalbattleoffical84@gmail.com</a></p>
+      <p>We aim to respond to every query as quickly as possible. Your feedback helps us make BattleCrash better!</p>
+    </div>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy Policy</h2>
+    <div class="privacy-box">
+      <p>This Privacy Policy explains how BattleCrash ("we", "our", "the app") handles information when you use our application.</p>
+
+      <h3>Information We Collect</h3>
+      <p>BattleCrash may collect basic, non-sensitive information such as device type, app usage statistics, and crash logs to help us improve performance and fix bugs. We do not collect sensitive personal information unless voluntarily provided by you (for example, when contacting support via email).</p>
+
+      <h3>How We Use Information</h3>
+      <p>Any information collected is used solely to improve app performance, fix issues, and enhance user experience. We do not sell or rent user data to third parties.</p>
+
+      <h3>Permissions</h3>
+      <p>The app may request certain device permissions (such as storage access) strictly to enable core gameplay and app functionality. Permissions are never used to access personal files without your knowledge.</p>
+
+      <h3>Third-Party Services</h3>
+      <p>BattleCrash does not knowingly share user data with third-party advertisers. Any future integrations will be disclosed in an updated version of this policy.</p>
+
+      <h3>Data Security</h3>
+      <p>We take reasonable measures to protect any information associated with app usage, but no method of digital storage or transmission is 100% secure.</p>
+
+      <h3>Children's Privacy</h3>
+      <p>BattleCrash is not intended for children under 13. We do not knowingly collect personal information from children.</p>
+
+      <h3>Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. Continued use of the app after changes means you accept the updated policy.</p>
+
+      <h3>Contact Us</h3>
+      <p>For any privacy-related questions, reach out to us at <a href="mailto:royalbattleoffical84@gmail.com" style="color:#ff9a3c;">royalbattleoffical84@gmail.com</a>.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; <span id="year"></span> BattleCrash. All rights reserved. Built by Shivam.<br>
+    Support: <a href="mailto:royalbattleoffical84@gmail.com">royalbattleoffical84@gmail.com</a>
+  </footer>
+
+  <div id="toast">Download started...</div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const downloadBtn = document.getElementById('downloadBtn');
+    const toast = document.getElementById('toast');
+
+    downloadBtn.addEventListener('click', function () {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+  </script>
+
+</body>
+</html>
